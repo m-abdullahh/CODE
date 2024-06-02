@@ -35,7 +35,7 @@ const CasesSearchPage = () => {
   };
 
   return (
-    <div className=" flex items-center w-full flex-col px-2 py-2">
+    <div className=" flex items-center w-full flex-col px-2 py-2 bg-muted/40 min-h-screen">
       <CustomNavBar />
       <h3 className="text-2xl font-semibold text-center">Search Any Case</h3>
       <InputForm register={register} handleSubmit={handleSubmit} onSubmit={onSubmit} />

@@ -14,6 +14,13 @@ import axios from "axios";
 const CopyrightSearchPage = () => {
   const [selectedOption, setSelectedOption] = useState("text");
 
+  const handleselectedOption = (value) => {
+    setResults([]);
+    setSelectedOption(value);
+    reset();
+    setisResponse(false);
+  };
+
   const { register, handleSubmit, reset } = useForm();
   const [results, setResults] = useState([]);
   const [isresponse, setisResponse] = useState(false);
@@ -23,18 +30,18 @@ const CopyrightSearchPage = () => {
     console.log(data);
     if (selectedOption == "text") {
       try {
-        const response = await axios.get("http://localhost:3000/copyright", {
+        const response = await axios.get("https://code-production-5d71.up.railway.app/copyright", {
           params: { text: data.search, caseType: "copyright" },
         });
         setResults(response.data);
-        setisResponse(!isresponse);
+        setisResponse(true);
         console.log(response);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     } else {
       try {
-        const response = await axios.get("http://localhost:3000/copyright", {
+        const response = await axios.get("https://code-production-5d71.up.railway.app/copyright", {
           params: { chapter: data.chapter, section: data.section, caseType: "copyright" },
         });
         setResults(response.data);
@@ -55,40 +62,34 @@ const CopyrightSearchPage = () => {
       <CustomNavBar />
       <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight py-4">Copyright Ordinance Search</h3>
       <InputForm
+        handleselectedOption={handleselectedOption}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         register={register}
         handleSubmit={handleSubmit(onSubmit)}
         reset={reset}
       />
-      <div>
-        <div className="w-full px-6">
+      <div className="w-full">
+        <div className="px-6">
           {isresponse && selectedOption == "text" && (
-            <div className="flex w-full justify-between items-center">
+            <div className="flex justify-between items-center">
               <p>{results.length} results found</p>
               <SelectForm handleFilterChange={handleFilterChange} />
             </div>
           )}
-          <Separator className="my-4" />
-          <div className="w-full">{results && results.map((result, index) => <SearchResult key={index} result={result} filters={filters} />)}</div>
+          {isresponse && <Separator className="my-4" />}
+          <div className="">{results && results.map((result, index) => <SearchResult key={index} result={result} filters={filters} />)}</div>
         </div>
       </div>
     </div>
   );
 };
 
-const InputForm = ({ register, handleSubmit, reset, selectedOption, setSelectedOption }) => {
+const InputForm = ({ register, handleSubmit, selectedOption, handleselectedOption }) => {
   return (
     <div className="w-full flex flex-col items-center">
       <div className="flex">
-        <RadioGroup
-          value={selectedOption}
-          onValueChange={(value) => {
-            setSelectedOption(value);
-            reset();
-          }}
-          className="flex"
-        >
+        <RadioGroup value={selectedOption} onValueChange={handleselectedOption} className="flex">
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="text" id="r1" />
             <Label htmlFor="r1">By Text</Label>

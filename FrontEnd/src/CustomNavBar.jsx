@@ -4,6 +4,10 @@ import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTrigger } from
 import { Label } from "@/components/ui/label";
 import { EllipsisVertical } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "./components/ui/button";
+import { useLogout } from "./hooks/useLogout";
+import { AuthContext } from "./context/AuthContext";
+import { useAuthContext } from "./hooks/useAuthContext";
 
 const CustomNavBar = () => {
   return (
@@ -19,6 +23,10 @@ const CustomNavBar = () => {
 };
 
 const CustomDrawer = () => {
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
+  const handleclick = () => logout();
+
   return (
     <>
       <Drawer direction="right">
@@ -35,7 +43,20 @@ const CustomDrawer = () => {
               <Label>Muhammad Abdullah</Label>
             </div>
           </DrawerHeader>
-          <DrawerFooter></DrawerFooter>
+          <DrawerFooter>
+            {user ? (
+              <Button onClick={handleclick}>Logout</Button>
+            ) : (
+              <div className="flex flex-col justify-center space-y-2 ">
+                <Button>
+                  <Link to={"/login"}>Login</Link>
+                </Button>
+                <Button>
+                  <Link to={"/signup"}>Signup</Link>
+                </Button>
+              </div>
+            )}
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>

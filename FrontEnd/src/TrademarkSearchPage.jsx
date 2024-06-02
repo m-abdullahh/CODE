@@ -23,7 +23,7 @@ const TrademarkSearchPage = () => {
     console.log(data);
     if (selectedOption == "text") {
       try {
-        const response = await axios.get("http://localhost:3000/trademark", {
+        const response = await axios.get("https://code-production-5d71.up.railway.app/trademark", {
           params: { text: data.search, caseType: "trademark" },
         });
         setResults(response.data);
@@ -34,7 +34,7 @@ const TrademarkSearchPage = () => {
       }
     } else {
       try {
-        const response = await axios.get("http://localhost:3000/trademark", {
+        const response = await axios.get("https://code-production-5d71.up.railway.app/trademark", {
           params: { chapter: data.chapter, section: data.section, caseType: "trademark" },
         });
         setResults(response.data);
