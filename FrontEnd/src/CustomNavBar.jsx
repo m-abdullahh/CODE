@@ -1,32 +1,43 @@
 import LogoUrl from "./assets/Logo.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTrigger } from "@/components/ui/drawer";
 import { Label } from "@/components/ui/label";
 import { EllipsisVertical } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "./components/ui/button";
 import { useLogout } from "./hooks/useLogout";
-import { AuthContext } from "./context/AuthContext";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 const CustomNavBar = () => {
+  const { user } = useAuthContext();
+
   return (
     <div className="w-full pb-2">
       <nav className="flex justify-between ">
         <Link to="/">
           <img src={LogoUrl} className="w-auto h-9" alt="" />
         </Link>
-        <CustomDrawer />
+        <div className="flex justify-between items-stretch space-x-2">
+          {!user && (
+            <Link className="" to={"/login"}>
+              <Button>Login</Button>
+            </Link>
+          )}
+          <CustomDrawer />
+        </div>
       </nav>
     </div>
   );
 };
 
 const CustomDrawer = () => {
-  const { user } = useAuthContext();
+  const navigate = useNavigate();
   const { logout } = useLogout();
-  const handleclick = () => logout();
-
+  const handleclick = () => {
+    logout();
+    navigate("/");
+  };
+  const { user } = useAuthContext();
   return (
     <>
       <Drawer direction="right">
@@ -35,28 +46,19 @@ const CustomDrawer = () => {
         </DrawerTrigger>
         <DrawerContent className="h-screen top-0 right-0 left-auto mt-0 w-[250px] sm:w-[300px] rounded-none">
           <DrawerHeader>
-            <div className="flex items-center gap-4">
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <Label>Muhammad Abdullah</Label>
-            </div>
-          </DrawerHeader>
-          <DrawerFooter>
-            {user ? (
-              <Button onClick={handleclick}>Logout</Button>
-            ) : (
-              <div className="flex flex-col justify-center space-y-2 ">
-                <Button>
-                  <Link to={"/login"}>Login</Link>
-                </Button>
-                <Button>
-                  <Link to={"/signup"}>Signup</Link>
-                </Button>
+            {user && (
+              <div className="flex items-center gap-4">
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <Label>
+                  {user.fname} {user.lname}
+                </Label>
               </div>
             )}
-          </DrawerFooter>
+          </DrawerHeader>
+          <DrawerFooter>{user && <Button onClick={handleclick}>Logout</Button>}</DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>

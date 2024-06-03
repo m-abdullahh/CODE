@@ -10,7 +10,7 @@ export const useSignup = () => {
     setIsLoading(true);
     setError(null);
 
-    const payload = { lname, fname, email, password };
+    const payload = { fname, lname, email, password };
     console.log("Payload:", payload); // Debugging line
 
     try {

@@ -4,7 +4,6 @@ const cors = require("cors");
 const userRoutes = require("./routes/user");
 const searchRoutes = require("./routes/searches");
 const mongoose = require("mongoose");
-const requireAuth = require("./middleware/requireAuth");
 
 app = express();
 app.use(express.json());

@@ -58,7 +58,7 @@ const PublicRoute = ({ element }) => {
   const { user } = useContext(AuthContext);
 
   if (user) {
-    return <Navigate to="/" />;
+    return <Navigate to="/SelectType" />;
   }
 
   return element;

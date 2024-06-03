@@ -64,7 +64,6 @@ const results = [
     hearings: "The court examined trademark registration details and Green Energy Corp.'s request for an injunction and financial compensation.",
   },
 ];
-
 const oneRes = [
   {
     title: "THE BERLIN AGREEMENT",
