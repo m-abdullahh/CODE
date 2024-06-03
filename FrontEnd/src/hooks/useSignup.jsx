@@ -14,7 +14,7 @@ export const useSignup = () => {
     console.log("Payload:", payload); // Debugging line
 
     try {
-      const response = await fetch("http://localhost:3000/signup", {
+      const response = await fetch("https://code-production-5d71.up.railway.app/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

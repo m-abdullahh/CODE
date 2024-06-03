@@ -23,7 +23,7 @@ const CasesSearchPage = () => {
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      const response = await axios.get("http://localhost:3000/cases", {
+      const response = await axios.get("https://code-production-5d71.up.railway.app/cases", {
         params: { text: data.search, caseType: "general" },
       });
       setResults(response.data);
